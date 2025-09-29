@@ -1,0 +1,28 @@
+name: Build and test
+
+on:
+  workflow_call: {}
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: cachix/install-nix-action@v31
+      with:
+        nix_path: nixpkgs=channel:nixos-25.05
+
+    - name: Compile
+      run: |
+        nix-shell --run "cmake -B build/"
+        nix-shell --run "cmake --build build/ -j $(nproc)"
+
+    - name: Test
+      run: |
+        nix-shell --run "python test.py"
