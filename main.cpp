@@ -5,18 +5,17 @@
 int main()
 {
     srand(time(0));
-    int random = rand() % 10;
-    int number;
+    const unsigned short random = rand() % 10;
+    unsigned short number = 10;
 
-    while (number != random)
-    {
+    while (true) {
         std::cout << "Guess a number from 0 to 9: ";
         std::cin >> number;
 
-        number == random
-            ? std::cout << "Correct!" << std::endl
-            : std::cout << "Wrong!" << std::endl;
+        if (number == random) { break; }
+        std::cout << "Wrong!" << std::endl;
     }
 
+    std::cout << "Correct!" << std::endl;
     return 0;
 }
